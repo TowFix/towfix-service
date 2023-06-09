@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "146354161007",
+    "project_id": "tow-fix",
+    "storage_bucket": "tow-fix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146354161007:android:8b8e8b75a42b996e4b149a",
+        "android_client_info": {
+          "package_name": "com.example.towfix_service"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146354161007-9j0u0cr4i7ferpb7i5i61h99mv0m1lfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLMH4uJAneCB7z6GGN1OBzZrtBMXzlVds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146354161007-9j0u0cr4i7ferpb7i5i61h99mv0m1lfh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "146354161007-tk5ardsbdjp8f26gog033lttvelq4rjb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.towfix.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146354161007:android:0ce4b13bfa9bb5ea4b149a",
+        "android_client_info": {
+          "package_name": "com.towfix.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146354161007-9j0u0cr4i7ferpb7i5i61h99mv0m1lfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLMH4uJAneCB7z6GGN1OBzZrtBMXzlVds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146354161007-9j0u0cr4i7ferpb7i5i61h99mv0m1lfh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "146354161007-tk5ardsbdjp8f26gog033lttvelq4rjb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.towfix.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

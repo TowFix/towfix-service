@@ -19,33 +19,37 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.3 <4.0.0'
+  sdk: '>=3.0.2 <4.0.0'
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
+
 dependencies:
   flutter:
     sdk: flutter
 
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+ 
   cupertino_icons: ^1.0.2
+  firebase_core: ^2.9.0
+  google_fonts: ^4.0.4
+  flutter_riverpod: ^2.3.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.0.4
+  mockito: ^5.0.15
+  #generate flutter hive type adapters
+  hive_generator: ^2.0.0
+  # generate splash screens
+  flutter_native_splash: ^2.0.5
+  # generate launcher icons
+  flutter_launcher_icons: ^0.11.0
+  # Code generation
+  json_serializable: ^6.1.4
+  freezed: ^2.1.0+1
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

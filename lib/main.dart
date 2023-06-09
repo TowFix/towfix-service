@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:towfix/core/constants/color/colors.dart';
 
 import 'core/presentation/pages/loading/loading_page.dart';
 import 'core/presentation/pages/onboarding/onboarding_page.dart';
