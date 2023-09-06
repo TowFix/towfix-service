@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:towfix/core/constants/assets/images.dart';
-import 'package:towfix/core/constants/color/colors.dart';
-import 'package:towfix/src/features/authentication/signup/presentation/pages/sign_up_page.dart';
+// import 'package:towfix/core/constants/assets/images.dart';
+// import 'package:towfix/core/constants/color/colors.dart';
+// import 'package:towfix/src/features/authentication/signup/presentation/pages/sign_up_page.dart';
 
+import '../../../../../core/constants/assets/images.dart';
+import '../../../../../core/constants/color/colors.dart';
+import '../../signup/presentation/pages/sign_up_page.dart';
 import '../../widgets/other_authentication_method.dart';
 
 class LoginPage extends ConsumerStatefulWidget {

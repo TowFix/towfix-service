@@ -2,10 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:towfix/core/constants/assets/images.dart';
-import 'package:towfix/core/constants/color/colors.dart';
-import 'package:towfix/core/presentation/pages/loading/loading_page.dart';
-import 'package:towfix/src/features/authentication/login/presentation/login_page.dart';
+import '../../../../src/features/authentication/login/presentation/login_page.dart';
+import '../../../constants/assets/images.dart';
+import '../../../constants/color/colors.dart';
+import '../loading/loading_page.dart';
+
+// import 'package:towfix/core/constants/assets/images.dart';
+// import 'package:towfix/core/constants/color/colors.dart';
+// import 'package:towfix/core/presentation/pages/loading/loading_page.dart';
+// import 'package:towfix/src/features/authentication/login/presentation/login_page.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -132,6 +137,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => LoadingPage(
+                                            replaceRouteStack: false,
+                                            routeName: '',
+                                            title: '',
                                             onLoading: () {
                                               Timer(
                                                 const Duration(seconds: 5),

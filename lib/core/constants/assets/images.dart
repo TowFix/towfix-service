@@ -8,4 +8,6 @@ class Images {
   static const slide2 = 'assets/images/slide-2.png';
   static const slide3 = 'assets/images/slide-3.png';
   static const auth = 'assets/images/auth.png';
+  static const selfie = 'assets/images/selfie.png';
+  static const faceShape = 'assets/images/face_trans.png';
 }

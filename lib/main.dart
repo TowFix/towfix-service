@@ -1,107 +1,62 @@
+import 'dart:ui';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:towfix_service/core/application/cache/cache_service.dart';
+import 'package:towfix_service/core/localization/string_hardcoded.dart';
+import 'package:towfix_service/core/providers/provider_logger.dart';
+import 'package:towfix_service/firebase_options.dart';
+import 'package:towfix_service/src/app.dart';
 
-import 'core/presentation/pages/loading/loading_page.dart';
-import 'core/presentation/pages/onboarding/onboarding_page.dart';
-import 'firebase_options.dart';
+import 'core/providers/listeners/auth_state_listener/auth_state_listener_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+
+  // * Initialize Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // * Initialize the cache service
+  await HiveCacheServiceImpl.init();
+  //* turn of the # in the URLs on the web
+  // GoRouter. .setUrlPathStrategy(UrlPathStrategy.path);
+  // * Register error handlers. For more info, see:
+  // * https://docs.flutter.dev/testing/errors
+  registerErrorHandlers();
+  // * Entry point of the app
+  final container = ProviderContainer(
+    observers: [Logger()],
   );
-  runApp(
-    const ProviderScope(child: MyApp()),
-  );
+  container.read(authStateChangedServiceProvider);
+  runApp(UncontrolledProviderScope(
+    container: container,
+
+    child: const MyApp(),
+
+    // overrides: [],
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void registerErrorHandlers() {
+  // * Show some error UI if any uncaught exception happens
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    debugPrint(details.toString());
+  };
+  // * Handle errors from the underlying platform/OS
+  PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+    debugPrint(error.toString());
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: GoogleFonts.poppins().fontFamily,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-          elevation: 0,
-          primary: TowFixColors.orange,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 8),
-        )),
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        // primarySwatch: Colors.blue,
-        primaryColor: const Color(0xff07005C),
-      ),
-      home: const OnboardingPage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _countekr without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    return true;
+  };
+  // * Show some error UI when any widget in the app fails to build
+  ErrorWidget.builder = (FlutterErrorDetails details) {
     return Scaffold(
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Text(
-          'TowFIx',
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: Text('An error occurred'.hardcoded),
       ),
+      body: Center(child: Text(details.toString())),
     );
-  }
+  };
 }
