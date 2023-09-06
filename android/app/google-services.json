@@ -1,76 +1,40 @@
 {
   "project_info": {
-    "project_number": "146354161007",
-    "project_id": "tow-fix",
-    "storage_bucket": "tow-fix.appspot.com"
+    "project_number": "361987235930",
+    "project_id": "towfix-abd8c",
+    "storage_bucket": "towfix-abd8c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:146354161007:android:8b8e8b75a42b996e4b149a",
+        "mobilesdk_app_id": "1:361987235930:android:a95e687f95ebb38b97b863",
         "android_client_info": {
           "package_name": "com.example.towfix_service"
         }
       },
       "oauth_client": [
         {
-          "client_id": "146354161007-9j0u0cr4i7ferpb7i5i61h99mv0m1lfh.apps.googleusercontent.com",
+          "client_id": "361987235930-dhvqh3c146e8d9ahmu4lksjksum34n37.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLMH4uJAneCB7z6GGN1OBzZrtBMXzlVds"
+          "current_key": "AIzaSyBeK2Vtg1aIdC5DSSi7vbeLNC5X60iQjSQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "146354161007-9j0u0cr4i7ferpb7i5i61h99mv0m1lfh.apps.googleusercontent.com",
+              "client_id": "361987235930-dhvqh3c146e8d9ahmu4lksjksum34n37.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "146354161007-tk5ardsbdjp8f26gog033lttvelq4rjb.apps.googleusercontent.com",
+              "client_id": "361987235930-c60i6agmgjdme5mqme803gmskjcmd8tn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.towfix.app"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:146354161007:android:0ce4b13bfa9bb5ea4b149a",
-        "android_client_info": {
-          "package_name": "com.towfix.app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "146354161007-9j0u0cr4i7ferpb7i5i61h99mv0m1lfh.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBLMH4uJAneCB7z6GGN1OBzZrtBMXzlVds"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "146354161007-9j0u0cr4i7ferpb7i5i61h99mv0m1lfh.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "146354161007-tk5ardsbdjp8f26gog033lttvelq4rjb.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.towfix.app"
+                "bundle_id": "com.example.towfixService.RunnerTests"
               }
             }
           ]

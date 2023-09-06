@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>146354161007-364t94cjl4oagd854q6pgn4l0i854mlv.apps.googleusercontent.com</string>
+	<string>361987235930-e1m0vmsmr0oop60ik4rd6uvtbqf5d2iv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.146354161007-364t94cjl4oagd854q6pgn4l0i854mlv</string>
+	<string>com.googleusercontent.apps.361987235930-e1m0vmsmr0oop60ik4rd6uvtbqf5d2iv</string>
 	<key>API_KEY</key>
-	<string>AIzaSyANeBkyqRBHtt9_3heyna0qdTZwhOVERYk</string>
+	<string>AIzaSyB8jddxR1QJnWGjzcIFBxZTKVEhT02dv0c</string>
 	<key>GCM_SENDER_ID</key>
-	<string>146354161007</string>
+	<string>361987235930</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.towfixService</string>
 	<key>PROJECT_ID</key>
-	<string>tow-fix</string>
+	<string>towfix-abd8c</string>
 	<key>STORAGE_BUCKET</key>
-	<string>tow-fix.appspot.com</string>
+	<string>towfix-abd8c.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:146354161007:ios:f8682193761cffa14b149a</string>
+	<string>1:361987235930:ios:13f981fb6c7b63a897b863</string>
 </dict>
 </plist>
