@@ -27,10 +27,10 @@ mixin _$Address {
   String get name => throw _privateConstructorUsedError;
 
   /// Mobile phone number
-  String get longitude => throw _privateConstructorUsedError;
+  double get longitude => throw _privateConstructorUsedError;
 
   /// Email Address
-  String get latitude => throw _privateConstructorUsedError;
+  double get latitude => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +42,7 @@ abstract class $AddressCopyWith<$Res> {
   factory $AddressCopyWith(Address value, $Res Function(Address) then) =
       _$AddressCopyWithImpl<$Res, Address>;
   @useResult
-  $Res call({String id, String name, String longitude, String latitude});
+  $Res call({String id, String name, double longitude, double latitude});
 }
 
 /// @nodoc
@@ -75,11 +75,11 @@ class _$AddressCopyWithImpl<$Res, $Val extends Address>
       longitude: null == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       latitude: null == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
     ) as $Val);
   }
 }
@@ -91,7 +91,7 @@ abstract class _$$_AddressCopyWith<$Res> implements $AddressCopyWith<$Res> {
       __$$_AddressCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String longitude, String latitude});
+  $Res call({String id, String name, double longitude, double latitude});
 }
 
 /// @nodoc
@@ -121,11 +121,11 @@ class __$$_AddressCopyWithImpl<$Res>
       longitude: null == longitude
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
       latitude: null == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
-              as String,
+              as double,
     ));
   }
 }
@@ -152,11 +152,11 @@ class _$_Address implements _Address {
 
   /// Mobile phone number
   @override
-  final String longitude;
+  final double longitude;
 
   /// Email Address
   @override
-  final String latitude;
+  final double latitude;
 
   @override
   String toString() {
@@ -198,8 +198,8 @@ abstract class _Address implements Address {
   const factory _Address(
       {required final String id,
       required final String name,
-      required final String longitude,
-      required final String latitude}) = _$_Address;
+      required final double longitude,
+      required final double latitude}) = _$_Address;
 
   factory _Address.fromJson(Map<String, dynamic> json) = _$_Address.fromJson;
 
@@ -214,11 +214,11 @@ abstract class _Address implements Address {
   @override
 
   /// Mobile phone number
-  String get longitude;
+  double get longitude;
   @override
 
   /// Email Address
-  String get latitude;
+  double get latitude;
   @override
   @JsonKey(ignore: true)
   _$$_AddressCopyWith<_$_Address> get copyWith =>

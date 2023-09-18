@@ -24,7 +24,7 @@ abstract class DatabaseRepository {
   Future<Either<Failure, String>> uploadImage(String path);
 
   ///* get service requests
-  Stream<Either<Failure, List<ServiceRequest>>> getServiceRequests();
+  Stream<List<ServiceRequest>> getServiceRequests();
 
   //* get request details
   // [id] used to fetch request details
@@ -41,7 +41,7 @@ class FirestoreDatabaseRepositoryImpl implements DatabaseRepository {
   final FirebaseStorage firebaseStorage;
 
   final profileCollectionPath = 'profiles';
-  final serviceRequestCollectionPath = 'service-request';
+  final serviceRequestCollectionPath = 'service-requests';
 
   @override
   Future<Either<Failure, Profile>> retrieveProfile(String id) async {
@@ -129,29 +129,17 @@ class FirestoreDatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Stream<Either<Failure, ServiceRequest>> getServiceRequestDetails(String id) {
-    // TODO: implement getServiceRequestDetails
-    throw UnimplementedError();
-  }
-
-  @override
-  Stream<Either<Failure, List<ServiceRequest>>> getServiceRequests() async* {
+  Stream<Either<Failure, ServiceRequest>> getServiceRequestDetails(
+      String id) async* {
     try {
-      // todo: get all request
-      final result = await firestore
+      final result = firestore
           .collection(serviceRequestCollectionPath)
-          // .where('status', isEqualTo: RequestStatus.active)
-          .doc()
+          .doc(id)
           .snapshots()
-          .map((event) => ServiceRequest.fromJson(event.data()!))
-          .toList();
-      //todo: sort by proximity radius
-
-      //todo: return requests in proximity
-
-      yield Right(result);
+          .map((event) => ServiceRequest.fromJson(event.data()!));
+      yield* result.map((data) => Right(data));
     } on FirebaseException catch (e) {
-      log('$e', error: e, name: 'updateProfile Firebase EXCEPTION');
+      log('$e', error: e, name: 'getServiceRequestDetails Firebase EXCEPTION');
 
       yield const Left(
           Failure.exception(message: 'Error retrieving profile info'));
@@ -159,7 +147,37 @@ class FirestoreDatabaseRepositoryImpl implements DatabaseRepository {
       log('$e', error: e, name: 'getServiceRequestDetails');
 
       yield const Left(
-          Failure.exception(message: 'Error getServiceRequestDetails  info'));
+          Failure.exception(message: 'Error retrieving profile info'));
+    }
+  }
+
+  @override
+  Stream<List<ServiceRequest>> getServiceRequests() async* {
+    try {
+      log('starting getServiceRequests');
+      // todo: get all request
+      final result = firestore
+          .collection(serviceRequestCollectionPath)
+          .where('status', isEqualTo: RequestStatus.requested.name)
+          .snapshots()
+          .map((event) => event.docs.map<ServiceRequest>((e) {
+                log('event: ${e.data()}');
+                return ServiceRequest.fromJson(e.data());
+              }).toList());
+      //todo: sort by proximity radius
+
+      //todo: return requests in proximity
+      log('result: getServiceRequests $result');
+      // final flattendResult = result.expand((list) => list).toList();
+      yield* result;
+    } on FirebaseException catch (e) {
+      log('$e', error: e, name: 'updateProfile Firebase EXCEPTION');
+
+      yield [];
+    } catch (e) {
+      log('$e', error: e, name: 'getServiceRequestDetails');
+
+      yield [];
     }
   }
 }

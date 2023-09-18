@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:towfix_service/core/dao/data_source/auth_repository.dart';
-import 'package:towfix_service/core/dto/failure/failure.dart';
 
 import '../application/cache/cache_service.dart';
 import '../dao/data_source/store_repository.dart';
@@ -50,7 +48,7 @@ final loginStateProvider = StateProvider<bool>((ref) {
 });
 
 @riverpod
-Stream<Either<Failure, List<ServiceRequest>>> serviceRequest(Ref ref) async* {
+Stream<List<ServiceRequest>> serviceRequests(ServiceRequestsRef ref) async* {
   final dbRepo = ref.watch(databaseRepositoryProvider);
 
   final result = dbRepo.getServiceRequests();

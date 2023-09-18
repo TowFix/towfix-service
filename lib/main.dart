@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:towfix_service/core/application/cache/cache_service.dart';
 import 'package:towfix_service/core/localization/string_hardcoded.dart';
+import 'package:towfix_service/core/providers/listeners/position_stream_listener/position_stream_listener_service.dart';
 import 'package:towfix_service/core/providers/provider_logger.dart';
 import 'package:towfix_service/firebase_options.dart';
 import 'package:towfix_service/src/app.dart';
@@ -28,6 +29,7 @@ void main() async {
     observers: [Logger()],
   );
   container.read(authStateChangedServiceProvider);
+  container.read(positionStreamChangeServiceProvider);
   runApp(UncontrolledProviderScope(
     container: container,
 

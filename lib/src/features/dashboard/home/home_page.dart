@@ -1,10 +1,17 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:towfix_service/core/app_router/app_router.dart';
 import 'package:towfix_service/core/constants/assets/svgs.dart';
+import 'package:towfix_service/core/dto/address/address.dart';
+import 'package:towfix_service/core/dto/profile/profile.dart';
+import 'package:towfix_service/core/dto/service_request/service_request.dart';
 import 'package:towfix_service/core/providers/common.dart';
+import 'package:towfix_service/core/providers/listeners/position_stream_listener/position_stream_listener_service.dart';
 import 'package:ui_common/ui_common.dart';
 
 class HomePage extends ConsumerWidget {
@@ -33,14 +40,14 @@ class HomePage extends ConsumerWidget {
         elevation: 0,
         actions: [
           Badge(
-            label: Text(
+            label: const Text(
               '2',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 10,
               ),
             ),
-            offset: Offset(-10, 2),
+            offset: const Offset(-10, 2),
             child: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -50,7 +57,7 @@ class HomePage extends ConsumerWidget {
                 // borderRadius: BorderRadius.circular(8),
               ),
               child: IconButton(
-                icon: Icon(Icons.notifications),
+                icon: const Icon(Icons.notifications),
                 onPressed: () {},
               ),
             ),
@@ -128,38 +135,49 @@ class HomePage extends ConsumerWidget {
           Expanded(
             child: SizedBox(
               width: double.infinity,
-              child: ref.watch(serviceRequestProvider).when(data: (response) {
-                return response.fold((l) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                          width: 200,
-                          height: 200,
-                          child: SvgPicture.asset(Svgs.noData)),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          'No Requests at the moment',
-                          style: context.titleMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    ],
-                  );
-                }, (r) {
-                  return ListView.builder(
-                    itemCount: 20,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    itemBuilder: (context, index) {
-                      return JobCard();
-                    },
-                  );
-                });
+              child: ref.watch(serviceRequestsProvider).when(data: (response) {
+                return ListView.builder(
+                  itemCount: response.length,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  itemBuilder: (context, index) {
+                    final job = response[index];
+                    return JobCard(
+                      amount: job.amount,
+                      desitnation: job.destination,
+                      pickUp: job.origin,
+                      requester: job.requester,
+                      onAccept: () async {
+                        final request = job.copyWith(
+                          status: RequestStatus.accepted,
+                          requester: cacheService.profile,
+                        );
+
+                        context.pushNamed(
+                          AppRoute.mapRoute.name,
+                          extra: {'id': request.id},
+                          pathParameters: {
+                            'id': request.id,
+                          },
+                        );
+
+                        // todo: update db
+                        //todo: route to maps screen
+                      },
+                      onCancel: () async {
+                        final request = job.copyWith(
+                          status: RequestStatus.cancelled,
+                          requester: cacheService.profile,
+                        );
+
+                        //todo: send notification to user
+                      },
+                    );
+                  },
+                );
               }, error: (error, strackTrace) {
                 log('service request: ', error: error, stackTrace: strackTrace);
 
-                return Center(
+                return const Center(
                   child: SizedBox(
                     width: 50,
                     height: 50,
@@ -179,8 +197,21 @@ class HomePage extends ConsumerWidget {
 
 class JobCard extends StatelessWidget {
   const JobCard({
+    required this.pickUp,
+    required this.desitnation,
+    this.onAccept,
+    this.onCancel,
+    required this.amount,
+    required this.requester,
     super.key,
   });
+
+  final Address pickUp;
+  final Address desitnation;
+  final Function()? onAccept;
+  final Function()? onCancel;
+  final Profile requester;
+  final double amount;
 
   @override
   Widget build(BuildContext context) {
@@ -196,21 +227,28 @@ class JobCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const CircleAvatar(),
+                const CircleAvatar(
+                    // backgroundImage: CachedNetworkImageProvider(requester.),
+                    ),
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Alex'),
+                    Text(requester.firstName),
                     //TODO: change this to widget in customer
-                    Text('Lagos, Nigeria'),
+                    SizedBox(
+                        width: context.mediaQuery.size.width * 0.4,
+                        child: Text(
+                          pickUp.name,
+                          overflow: TextOverflow.ellipsis,
+                        )),
                   ],
                 ),
                 Spacer(),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('GHC 300',
+                    Text('GHC $amount',
                         style: Theme.of(context).textTheme.titleLarge),
                     Container(
                         padding: const EdgeInsets.symmetric(
@@ -265,9 +303,11 @@ class JobCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitledTextWidget(),
+                    TitledTextWidget(
+                      location: pickUp.name,
+                    ),
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
+                      margin: const EdgeInsets.symmetric(vertical: 10),
                       height: 3,
                       width: MediaQuery.of(context).size.width * 0.6,
                       decoration: BoxDecoration(
@@ -275,7 +315,10 @@ class JobCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(3),
                       ),
                     ),
-                    TitledTextWidget(),
+                    TitledTextWidget(
+                      location: desitnation.name,
+                      isPickUp: true,
+                    ),
                   ],
                 )
               ],
@@ -286,7 +329,7 @@ class JobCard extends StatelessWidget {
                 SizedBox(
                   width: 15,
                 ),
-                TitledTextWidget(),
+                // TitledTextWidget(),
               ],
             ),
             const SizedBox(height: 10),
@@ -295,29 +338,31 @@ class JobCard extends StatelessWidget {
                 Spacer(),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                       ),
                       primary: Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white,
                     ),
-                    onPressed: () {},
-                    child: Text('Accept')),
+                    onPressed: onAccept,
+                    child: const Text('Accept')),
                 const SizedBox(width: 10),
                 OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                      ),
-                      primary: Theme.of(context).primaryColor,
-                      side: BorderSide(
-                        color: Theme.of(context).primaryColor,
-                      ),
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    onPressed: () {},
-                    child: Text('Cancel')),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    primary: Theme.of(context).primaryColor,
+                    side: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  onPressed: onCancel,
+                  child: const Text('Cancel'),
+                ),
               ],
             ),
           ],
@@ -328,31 +373,53 @@ class JobCard extends StatelessWidget {
 class TitledTextWidget extends StatelessWidget {
   const TitledTextWidget({
     super.key,
+    this.isPickUp = false,
+    required this.location,
   });
+
+  final String location;
+  final bool isPickUp;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Pickup Location', style: Theme.of(context).textTheme.bodySmall),
-        Text('Lagos, Nigeria', style: Theme.of(context).textTheme.titleMedium),
+        Text(isPickUp ? 'Pickup Location' : 'Destination',
+            style: Theme.of(context).textTheme.bodySmall),
+        Container(
+          width: context.mediaQuery.size.width * 0.6,
+          child: Text(
+            location,
+            style: Theme.of(context).textTheme.titleMedium,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }
 }
 
-class CurrentLocation extends StatelessWidget {
+class CurrentLocation extends ConsumerWidget {
   const CurrentLocation({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
-        Icon(Icons.location_on, color: Colors.black),
-        Text('Lagos, Nigeria', style: Theme.of(context).textTheme.titleLarge),
+        Icon(
+          Icons.location_on,
+          color: context.primaryColor,
+          size: 20,
+        ),
+        Text(
+          ref.watch(currentPositionStreamProvider)!.name,
+          style: Theme.of(context).textTheme.titleMedium,
+          maxLines: 2,
+        ),
       ],
     );
   }
@@ -381,3 +448,6 @@ class UserStatusWidget extends StatelessWidget {
     );
   }
 }
+
+
+//todo: hide all other requests

@@ -15,9 +15,13 @@ class ServiceRequest with _$ServiceRequest {
       required Profile servicer,
       required ServiceType serviceType,
       required double amount,
-      required RequestStatus status,
-      required Address serviceLocation,
+      @JsonKey(defaultValue: RequestStatus.none) required RequestStatus status,
+      required Address origin,
       required Address destination,
+      @JsonKey(
+          readValue: JsonConverterWrapper.date,
+          toJson: JsonConverterWrapper.toJson)
+      required DateTime requestDate,
       @JsonKey(
           readValue: JsonConverterWrapper.date,
           toJson: JsonConverterWrapper.toJson)
@@ -33,19 +37,35 @@ class ServiceRequest with _$ServiceRequest {
         serviceType: ServiceType.towing,
         amount: 0.0,
         destination: Address.initial(),
-        serviceLocation: Address.initial(),
-        status: RequestStatus.active,
+        origin: Address.initial(),
+        status: RequestStatus.none,
+        requestDate: DateTime.now(),
         date: DateTime(2023),
       );
 }
 
 enum ServiceType {
-  mechanic,
+  @JsonValue('mechanicRequest')
+  mechanicRequest,
+  @JsonValue('towing')
   towing,
+  @JsonValue('merchanicShop')
+  merchanicShop,
+  @JsonValue('none')
+  none,
 }
 
 enum RequestStatus {
-  active,
+  @JsonValue('requested')
+  requested,
+  @JsonValue('accepted')
+  accepted,
+  @JsonValue('inProgress')
+  inProgress,
+  @JsonValue('none')
+  none,
+  @JsonValue('cancelled')
   cancelled,
+  @JsonValue('completed')
   completed,
 }

@@ -17,10 +17,10 @@ class Address with _$Address {
     required String name,
 
     /// Mobile phone number
-    required String longitude,
+    required double longitude,
 
     /// Email Address
-    required String latitude,
+    required double latitude,
 
     /// Date created
   }) = _Address;
@@ -28,8 +28,8 @@ class Address with _$Address {
   /// Initial state with dummy data
   factory Address.initial() => const Address(
         id: '',
-        latitude: '',
-        longitude: '',
+        latitude: 0.0,
+        longitude: 0.0,
         name: '',
       );
 

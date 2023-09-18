@@ -13,7 +13,7 @@ class MyApp extends ConsumerWidget {
     final goRouter = ref.watch(goRouterProvider);
 
     return MaterialApp.router(
-      title: 'TowFIx Service',
+      title: 'TowFIx',
       restorationScopeId: 'app',
       routerConfig: goRouter,
       onGenerateTitle: (BuildContext context) => 'TowFIx Service'.hardcoded,
@@ -24,6 +24,8 @@ class MyApp extends ConsumerWidget {
         scaffoldBackgroundColor: Color.fromARGB(255, 244, 241, 251),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData(),
+      // themeMode: ThemeMode.dark,
     );
   }
 }

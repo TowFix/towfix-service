@@ -7,6 +7,7 @@ import 'package:towfix_service/core/presentation/pages/loading/loading_page.dart
 import 'package:towfix_service/core/presentation/pages/loading/splash_loading_page.dart';
 import 'package:towfix_service/src/features/authentication/login/presentation/login_page.dart';
 import 'package:towfix_service/src/features/dashboard/dashboard.dart';
+import 'package:towfix_service/src/features/map/presentation/map_route_screen.dart';
 
 import '../not_found/not_found_screen.dart';
 import '../providers/common.dart';
@@ -20,6 +21,7 @@ enum AppRoute {
   signInWithEmail,
   getStarted,
   signUp,
+  mapRoute,
   productCategory,
   productDetails,
   checkout,
@@ -80,6 +82,19 @@ GoRouter goRouter(GoRouterRef ref) {
                       fullscreenDialog: true,
                       child: Dashboard(),
                     ),
+                routes: []),
+            GoRoute(
+                path: 'map-route/:id',
+                name: AppRoute.mapRoute.name,
+                pageBuilder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>;
+                  final id = extra['id'];
+                  return MaterialPage(
+                    key: state.pageKey,
+                    fullscreenDialog: true,
+                    child: MapRouteScreen(id: id),
+                  );
+                },
                 routes: []),
           ]),
     ],

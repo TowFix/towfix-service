@@ -6,22 +6,21 @@ part of 'common.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$serviceRequestHash() => r'18be8c1efa184aea247fef62e8d0c12f9901ea0a';
+String _$serviceRequestsHash() => r'943ab939e648ce306aef3f78e7048cfaad1d0c2d';
 
-/// See also [serviceRequest].
-@ProviderFor(serviceRequest)
-final serviceRequestProvider =
-    AutoDisposeStreamProvider<Either<Failure, List<ServiceRequest>>>.internal(
-  serviceRequest,
-  name: r'serviceRequestProvider',
+/// See also [serviceRequests].
+@ProviderFor(serviceRequests)
+final serviceRequestsProvider =
+    AutoDisposeStreamProvider<List<ServiceRequest>>.internal(
+  serviceRequests,
+  name: r'serviceRequestsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$serviceRequestHash,
+      : _$serviceRequestsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef ServiceRequestRef
-    = AutoDisposeStreamProviderRef<Either<Failure, List<ServiceRequest>>>;
+typedef ServiceRequestsRef = AutoDisposeStreamProviderRef<List<ServiceRequest>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
